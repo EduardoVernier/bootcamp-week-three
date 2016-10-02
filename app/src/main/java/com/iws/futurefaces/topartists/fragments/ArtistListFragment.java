@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.iws.futurefaces.topartists.R;
 import com.iws.futurefaces.topartists.adapters.ArtistAdapter;
+import com.iws.futurefaces.topartists.data.network.ArtistProvider;
 import com.iws.futurefaces.topartists.models.Artist;
 
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class ArtistListFragment extends Fragment
 
 	private ArtistAdapter adapter;
 	private ArrayList<Artist> artistList;
+	private ArtistProvider artistProvider;
+	private String username;
 
 	public ArtistListFragment() {
 	}
@@ -27,8 +30,14 @@ public class ArtistListFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		username = getArguments().getString(getString(R.string.username));
 		artistList = new ArrayList<Artist>();
 		adapter = new ArtistAdapter(artistList, this);
+
+		artistProvider = ArtistProvider.getInstance();
+		artistProvider.init(username, artistList, adapter, getContext());
+		artistProvider.getArtists();
+
 	}
 
 	@Override

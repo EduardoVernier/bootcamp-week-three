@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">TopArtists</string>
+    <string name="username_hint">Last.fm user</string>
+    <string name="username">username</string>
+    <string name="artists_url">http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&amp;user=%1$s&amp;api_key=%2$s&amp;format=json</string>
 </resources>

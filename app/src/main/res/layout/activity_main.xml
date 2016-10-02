@@ -6,13 +6,10 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.iws.futurefaces.topartists.activities.MainActivity">
 
     <EditText
+        android:id="@+id/main_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -20,16 +17,17 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="170dp"
-        android:id="@+id/editText"
-        android:hint="Last.fm user"/>
+        android:textAlignment="center"
+        android:hint="@string/username_hint"/>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/main_continue_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="25dp"
         android:clickable="true"
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_chevron_right_black_24dp"
-        android:id="@+id/floatingActionButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"/>
 </RelativeLayout>

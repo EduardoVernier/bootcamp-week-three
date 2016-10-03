@@ -10,19 +10,14 @@ import android.view.ViewGroup;
 
 import com.iws.futurefaces.topartists.R;
 import com.iws.futurefaces.topartists.adapters.ArtistAdapter;
-import com.iws.futurefaces.topartists.data.database.DatabaseHandler;
-import com.iws.futurefaces.topartists.data.network.ArtistProvider;
 import com.iws.futurefaces.topartists.models.Artist;
 
 import java.util.ArrayList;
 
-public class ArtistListFragment extends Fragment
-		implements ArtistAdapter.OnListFragmentInteractionListener {
+public class ArtistListFragment extends Fragment {
 
-	private ArtistAdapter adapter;
+	private ArtistAdapter artistAdapter;
 	private ArrayList<Artist> artistList;
-	private ArtistProvider artistProvider;
-	private String username;
 
 	public ArtistListFragment() {
 	}
@@ -31,24 +26,10 @@ public class ArtistListFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		username = getArguments().getString(getString(R.string.username));
 		artistList = new ArrayList<Artist>();
-		adapter = new ArtistAdapter(artistList, this);
-
-		DatabaseHandler db = DatabaseHandler.getInstance(getContext());
-		db.init(username, new DatabaseChangeListener());
-	}
-
-	public class DatabaseChangeListener implements DatabaseHandler.DatabaseListener {
-
-		@Override
-		public void onArtistsReady() {
-			ArrayList<Artist> updatedArtistList =
-					DatabaseHandler.getInstance(getContext()).getAllArtists();
-			artistList.clear();
-			artistList.addAll(updatedArtistList);
-			adapter.notifyDataSetChanged();
-		}
+		artistAdapter = new ArtistAdapter(artistList,
+				(ArtistAdapter.OnArtistFragmentInteractionListener) getActivity(),
+				getContext());
 	}
 
 	@Override
@@ -58,14 +39,22 @@ public class ArtistListFragment extends Fragment
 		RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_artist_list,
 				container, false);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-		recyclerView.setAdapter(adapter);
+		recyclerView.setAdapter(artistAdapter);
 		return recyclerView;
 	}
 
-	@Override
-	public void onListFragmentInteraction(Artist item) {
+	public void updateData(ArrayList<Artist> updatedArtistList) {
+
+		if (artistList == null) {
+			artistList = new ArrayList<Artist>();
+			artistAdapter = new ArtistAdapter(artistList,
+					(ArtistAdapter.OnArtistFragmentInteractionListener) getActivity(),
+					getContext());
+		}
+
+		artistList.clear();
+		artistList.addAll(updatedArtistList);
+		artistAdapter.notifyDataSetChanged();
 
 	}
-
-
 }

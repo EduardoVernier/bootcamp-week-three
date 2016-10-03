@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		public void onClick(View v) {
 
-			Intent intent = new Intent(MainActivity.this, ArtistListActivity.class);
+			Intent intent = new Intent(MainActivity.this, MatchingActivity.class);
 			intent.putExtra(getString(R.string.username), usernameEditText.getText().toString());
 			startActivity(intent);
 		}

@@ -32,8 +32,8 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 	@Override
 	public void onBindViewHolder(final ViewHolder holder, int position) {
 		holder.item = artistList.get(position);
-//		holder.idView.setText(holder.item.id);
-//		holder.contentView.setText(holder.item.content);
+		holder.idView.setText(holder.item.getName());
+		holder.contentView.setText(holder.item.getImageSmall());
 
 		holder.view.setOnClickListener(new View.OnClickListener() {
 			@Override

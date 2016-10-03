@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 
 import com.iws.futurefaces.topartists.R;
 import com.iws.futurefaces.topartists.adapters.ArtistAdapter;
+import com.iws.futurefaces.topartists.data.database.DatabaseHandler;
 import com.iws.futurefaces.topartists.data.network.ArtistProvider;
 import com.iws.futurefaces.topartists.models.Artist;
 
 import java.util.ArrayList;
 
 public class ArtistListFragment extends Fragment
-		implements ArtistAdapter.OnListFragmentInteractionListener{
+		implements ArtistAdapter.OnListFragmentInteractionListener {
 
 	private ArtistAdapter adapter;
 	private ArrayList<Artist> artistList;
@@ -34,10 +35,20 @@ public class ArtistListFragment extends Fragment
 		artistList = new ArrayList<Artist>();
 		adapter = new ArtistAdapter(artistList, this);
 
-		artistProvider = ArtistProvider.getInstance();
-		artistProvider.init(username, artistList, adapter, getContext());
-		artistProvider.getArtists();
+		DatabaseHandler db = DatabaseHandler.getInstance(getContext());
+		db.init(username, new DatabaseChangeListener());
+	}
 
+	public class DatabaseChangeListener implements DatabaseHandler.DatabaseListener {
+
+		@Override
+		public void onArtistsReady() {
+			ArrayList<Artist> updatedArtistList =
+					DatabaseHandler.getInstance(getContext()).getAllArtists();
+			artistList.clear();
+			artistList.addAll(updatedArtistList);
+			adapter.notifyDataSetChanged();
+		}
 	}
 
 	@Override
@@ -55,4 +66,6 @@ public class ArtistListFragment extends Fragment
 	public void onListFragmentInteraction(Artist item) {
 
 	}
+
+
 }

@@ -21,7 +21,7 @@ public class ArtistParser {
 
 			JSONObject artist = artists.getJSONObject(i);
 			String name = artist.getString("name");
-			String playCount = artist.getString("playcount");
+			int playCount = artist.getInt("playcount");
 			String imageSmall = artist.getJSONArray("image").getJSONObject(2).getString("#text");
 			String imageLarge = artist.getJSONArray("image").getJSONObject(4).getString("#text");
 

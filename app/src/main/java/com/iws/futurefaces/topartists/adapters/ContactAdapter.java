@@ -13,12 +13,11 @@ import java.util.ArrayList;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ViewHolder> {
 
-	private final ArrayList<Contact> contactList;
-	private final OnContactFragmentInteractionListener listener;
+	private ArrayList<Contact> contactList;
+	private OnContactFragmentInteractionListener listener;
 
-	public ContactAdapter(ArrayList<Contact> contactList, OnContactFragmentInteractionListener listener) {
+	public ContactAdapter(ArrayList<Contact> contactList) {
 		this.contactList = contactList;
-		this.listener = listener;
 	}
 
 	@Override

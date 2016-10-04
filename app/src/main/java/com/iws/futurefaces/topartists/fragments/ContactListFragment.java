@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.iws.futurefaces.topartists.R;
 import com.iws.futurefaces.topartists.adapters.ContactAdapter;
+import com.iws.futurefaces.topartists.data.local.ContactProvider;
 import com.iws.futurefaces.topartists.models.Contact;
 
 import java.util.ArrayList;
@@ -26,11 +27,11 @@ public class ContactListFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (contactList == null) {
-			contactList = new ArrayList<Contact>();
-			contactAdapter = new ContactAdapter(contactList,
-					(ContactAdapter.OnContactFragmentInteractionListener) getActivity());
-		}
+		contactList = new ArrayList<Contact>();
+		contactAdapter = new ContactAdapter(contactList);
+
+		ContactProvider.fetchContacts(getActivity());
+
 	}
 
 	@Override
@@ -41,18 +42,16 @@ public class ContactListFragment extends Fragment {
 		recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 		recyclerView.setAdapter(contactAdapter);
 		return recyclerView;
+
 	}
 
 	public void updateData(ArrayList<Contact> updatedContactList) {
 
-		if (contactList == null) {
-			contactList = new ArrayList<Contact>();
-			contactAdapter = new ContactAdapter(contactList,
-					(ContactAdapter.OnContactFragmentInteractionListener) getActivity());
-		}
+		if (contactList != null && contactAdapter != null) {
 
-		contactList.clear();
-		contactList.addAll(updatedContactList);
-		contactAdapter.notifyDataSetChanged();
+			contactList.clear();
+			contactList.addAll(updatedContactList);
+			contactAdapter.notifyDataSetChanged();
+		}
 	}
 }

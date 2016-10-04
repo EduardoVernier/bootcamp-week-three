@@ -6,7 +6,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iws.futurefaces.topartists.activities.MainActivity">
+    tools:context="com.iws.futurefaces.topartists.activities.StarterActivity">
 
     <EditText
         android:id="@+id/main_username"

@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.iws.futurefaces.topartists.R;
 
-public class MainActivity extends AppCompatActivity {
+public class StarterActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 				(FloatingActionButton) findViewById(R.id.main_continue_button);
 
 		continueButton.setOnClickListener(new ContinueClickListener(username));
+
 	}
 
 	private class ContinueClickListener implements View.OnClickListener {
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 		@Override
 		public void onClick(View v) {
 
-			Intent intent = new Intent(MainActivity.this, MatchingActivity.class);
+			Intent intent = new Intent(StarterActivity.this, MatchingActivity.class);
 			intent.putExtra(getString(R.string.username), usernameEditText.getText().toString());
 			startActivity(intent);
 		}

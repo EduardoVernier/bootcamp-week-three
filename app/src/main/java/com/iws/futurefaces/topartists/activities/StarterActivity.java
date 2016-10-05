@@ -14,7 +14,7 @@ public class StarterActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_starter);
+		setContentView(R.layout.activity_main);
 
 		EditText username = (EditText) findViewById(R.id.main_username);
 		FloatingActionButton continueButton =

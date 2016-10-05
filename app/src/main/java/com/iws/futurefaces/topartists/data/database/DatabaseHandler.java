@@ -18,8 +18,7 @@ import java.util.ArrayList;
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 	public interface DatabaseListener {
-		public void updateArtists(ArrayList<Artist> artistArrayList);
-		public void updateContacts(ArrayList<Contact> contactArrayList);
+		public void onDataFetched();
 	}
 
 	private static DatabaseHandler instance = null;
@@ -60,11 +59,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		this.listener = listener;
 
-		// Offline first (use current database state)
-		syncArtists();
-		syncContacts();
-
-		// Fetch from network and file system
 		ArtistProvider.fetchArtists(username, context);
 		ContactProvider.fetchContacts(context);
 	}
@@ -126,11 +120,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			db.close();
 			return null;
 		}
-
-		@Override
-		protected void onPostExecute(Void aVoid) {
-			syncArtists();
-		}
 	}
 
 	public void addContacts(ArrayList<Contact> contactArrayList) {
@@ -165,11 +154,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		@Override
 		protected void onPostExecute(Void aVoid) {
-			syncContacts();
+			listener.onDataFetched();
 		}
 	}
 
-	public void syncArtists() {
+	public ArrayList<Artist> getAllArtists() {
 
 		ArrayList<Artist> artistArrayList = new ArrayList<Artist>();
 		SQLiteDatabase db = instance.getWritableDatabase();
@@ -190,10 +179,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		}
 
 		db.close();
-		listener.updateArtists(artistArrayList);
+		return artistArrayList;
 	}
 
-	public void syncContacts() {
+	public ArrayList<Contact> getAllContacts() {
 
 		ArrayList<Contact> contactArrayList = new ArrayList<Contact>();
 		SQLiteDatabase db = instance.getWritableDatabase();
@@ -212,7 +201,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		}
 
 		db.close();
-		listener.updateContacts(contactArrayList);
+		return contactArrayList;
 	}
 
 

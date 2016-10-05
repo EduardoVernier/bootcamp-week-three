@@ -9,12 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.iws.futurefaces.topartists.R;
+import com.iws.futurefaces.topartists.activities.MatchingActivity;
 import com.iws.futurefaces.topartists.adapters.ArtistAdapter;
 import com.iws.futurefaces.topartists.models.Artist;
 
 import java.util.ArrayList;
 
-public class ArtistListFragment extends Fragment {
+public class ArtistListFragment extends Fragment implements
+		ArtistAdapter.OnArtistFragmentInteractionListener{
 
 	private ArtistAdapter artistAdapter;
 	private ArrayList<Artist> artistList;
@@ -26,10 +28,11 @@ public class ArtistListFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		artistList = new ArrayList<Artist>();
-		artistAdapter = new ArtistAdapter(artistList,
-				(ArtistAdapter.OnArtistFragmentInteractionListener) getActivity(),
-				getContext());
+		// Check if list and adapter were not yet initialized due to asynchronous data fetching
+		if (artistAdapter == null && artistList == null) {
+			artistList = new ArrayList<Artist>();
+			artistAdapter = new ArtistAdapter(artistList, this);
+		}
 	}
 
 	@Override
@@ -45,16 +48,25 @@ public class ArtistListFragment extends Fragment {
 
 	public void updateData(ArrayList<Artist> updatedArtistList) {
 
+		// onCreate method might might not have been called yet
 		if (artistList == null) {
 			artistList = new ArrayList<Artist>();
-			artistAdapter = new ArtistAdapter(artistList,
-					(ArtistAdapter.OnArtistFragmentInteractionListener) getActivity(),
-					getContext());
+			artistAdapter = new ArtistAdapter(artistList, this);
 		}
 
+		// Update adapter
 		artistList.clear();
 		artistList.addAll(updatedArtistList);
 		artistAdapter.notifyDataSetChanged();
+	}
 
+	@Override
+	public void onArtistInteraction(Artist item) {
+		// Alert activity that fragment must be replaced
+		((MatchingActivity)getActivity()).onArtistInteraction(item);
+	}
+
+	public interface OnArtistFragmentInteractionListener {
+		void onArtistInteraction(Artist item);
 	}
 }

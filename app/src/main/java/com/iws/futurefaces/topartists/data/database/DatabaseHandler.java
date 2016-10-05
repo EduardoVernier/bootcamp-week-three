@@ -18,7 +18,8 @@ import java.util.ArrayList;
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 	public interface DatabaseListener {
-		public void onDataFetched();
+		public void syncArtists();
+		public void syncContacts();
 	}
 
 	private static DatabaseHandler instance = null;
@@ -59,6 +60,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 		this.listener = listener;
 
+		// Offline first (sync UI with current database state)
+		listener.syncArtists();
+		listener.syncContacts();
+
+		// Then use fetch data from network/local storage
 		ArtistProvider.fetchArtists(username, context);
 		ContactProvider.fetchContacts(context);
 	}
@@ -116,9 +122,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 					; // Mute failed insertions due to the UNIQUE constraint
 				}
 			}
-
 			db.close();
 			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			listener.syncArtists();
 		}
 	}
 
@@ -147,14 +157,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 					; // Mute failed insertions due to the UNIQUE constraint
 				}
 			}
-
 			db.close();
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void aVoid) {
-			listener.onDataFetched();
+			listener.syncContacts();
 		}
 	}
 

@@ -21,19 +21,18 @@ import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> {
 
-	private final List<Artist> artistList;
-	private final OnArtistFragmentInteractionListener listener;
-	private final Context context;
+	private List<Artist> artistList;
+	private OnArtistFragmentInteractionListener listener;
+	private Context context;
 
-	public ArtistAdapter(ArrayList<Artist> artistList, OnArtistFragmentInteractionListener listener,
-						 Context context) {
+	public ArtistAdapter(ArrayList<Artist> artistList, OnArtistFragmentInteractionListener listener) {
 		this.artistList = artistList;
 		this.listener = listener;
-		this.context = context;
 	}
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+		context = parent.getContext();
 		View view = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.fragment_artist, parent, false);
 		return new ViewHolder(view);

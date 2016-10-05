@@ -44,7 +44,7 @@ public class ArtistProvider {
 				}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Toast.makeText(context, "Couldn't load artists.", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "Couldn't load artists from network.", Toast.LENGTH_SHORT).show();
 				return;
 			}
 		});

@@ -9,15 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.iws.futurefaces.topartists.R;
+import com.iws.futurefaces.topartists.activities.MatchingActivity;
 import com.iws.futurefaces.topartists.adapters.ContactAdapter;
 import com.iws.futurefaces.topartists.models.Contact;
 
 import java.util.ArrayList;
 
-public class ContactListFragment extends Fragment {
+public class ContactListFragment extends Fragment implements
+		ContactAdapter.OnContactFragmentInteractionListener{
 
 	private ArrayList<Contact> contactList;
 	private ContactAdapter contactAdapter;
+	private String currentArtist;
 
 	public ContactListFragment() {
 	}
@@ -26,10 +29,12 @@ public class ContactListFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		String artistKey = getContext().getResources().getString(R.string.current_artist);
+		currentArtist = getArguments().getString(artistKey);
+
 		if (contactList == null) {
 			contactList = new ArrayList<Contact>();
-			contactAdapter = new ContactAdapter(contactList,
-					(ContactAdapter.OnContactFragmentInteractionListener) getActivity());
+			contactAdapter = new ContactAdapter(contactList, this);
 		}
 	}
 
@@ -47,12 +52,17 @@ public class ContactListFragment extends Fragment {
 
 		if (contactList == null) {
 			contactList = new ArrayList<Contact>();
-			contactAdapter = new ContactAdapter(contactList,
-					(ContactAdapter.OnContactFragmentInteractionListener) getActivity());
+			contactAdapter = new ContactAdapter(contactList, this);
 		}
 
 		contactList.clear();
 		contactList.addAll(updatedContactList);
 		contactAdapter.notifyDataSetChanged();
 	}
+
+	@Override
+	public void onContactInteraction(Contact contact) {
+		((MatchingActivity)getActivity()).onContactInteraction(contact, this.currentArtist);
+	}
+
 }

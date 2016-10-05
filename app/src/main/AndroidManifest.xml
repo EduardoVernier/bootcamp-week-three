@@ -22,9 +22,6 @@
         <activity android:name=".activities.MatchingActivity">
         </activity>
 
-        <provider android:name=".data.ContentProvider"
-            android:authorities="com.iws.futurefaces.topartists.data.ContentProvider">
-        </provider>
     </application>
 
 </manifest>
